@@ -1,0 +1,3 @@
+class Triangulo extends Figura{
+    
+}
