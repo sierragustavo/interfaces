@@ -1,0 +1,3 @@
+class Linea extends Figura{
+    
+}

@@ -3,18 +3,10 @@ class Rectangulo extends Figura {
     super(posX, posY, width, height, fill, context);
   }
 
-  draw(posX, posY, width, height, fill, context) {
-    let posX = random(ANCHO);
-    let posY = random(ALTO);
-    let width = random(40);
-    let height = random(40);
-    let color = getRandomRGBA();
-    ctx.fillStyle = color;
+  draw() {
+    ctx.fillStyle = this.fill;
     ctx.beginPath();
-    if (estilo) {
-      ctx.fillRect(posX, posY, width, height);
-    } else {
-    }
+    ctx.fillRect(this.posX, this.posY, this.width, this.height);
     ctx.fill();
     ctx.stroke();
   }
