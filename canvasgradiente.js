@@ -1,5 +1,6 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
+console.log("asdddd");
 const ancho = canvas.getAttribute("width");
 const alto = canvas.getAttribute("height");
 let imageData = ctx.createImageData(ancho, alto);
@@ -8,10 +9,9 @@ let g = 0;
 let b = 0;
 let a = 255;
 
-for (let i = 0; i < ancho; i++) {
-  for (let j = 0; j < alto; j++) {
+for (let j = 0; j < ancho; j++) {
+  for (let i = 0; i < alto; i++) {
     rellenar(imageData, i, j, r, g, b, a);
-
   }
   r++;
   g++;
