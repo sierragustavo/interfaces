@@ -1,13 +1,17 @@
 const canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
+
 const ANCHO = canvas.width;
 const ALTO = canvas.height;
 
+
 let figuras = [];
+
 
 const CANT_FIGURAS = 30;
 dibujar();
+
 
 function dibujar() {
   paintCanvas(ctx);
@@ -18,6 +22,7 @@ function dibujar() {
     figuras[i].draw();
   }
 }
+
 
 function addFigura(estilo) {
   let posX = random(ANCHO);
@@ -39,6 +44,7 @@ function paintCanvas(ctx) {
   let fondo = new Rectangulo(0, 0, ANCHO, ALTO, `rgba(230,230,230,100)`, ctx);
   fondo.draw();
 }
+
 function getRandomRGBA() {
   let r = Math.round(Math.random() * 255);
   let g = Math.round(Math.random() * 255);

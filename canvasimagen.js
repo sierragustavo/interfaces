@@ -14,7 +14,7 @@ const ctx = canvas.getContext("2d");
 var imageData;
 
 const imagen = new Image();
-imagen.src = "img.jpeg";
+imagen.src = "GATURRO_1.webp";
 
 imagen.onload = function () {
   ctx.drawImage(this, 0, 0);
