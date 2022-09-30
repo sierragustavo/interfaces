@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entregable</title>
+  </head>
+  <body>
+    <canvas
+      id="canvas"
+      height="350"
+      width="350"
+      style="border: 1px solid blue"
+    ></canvas>
+    <div>
+      <input
+        type="radio"
+        name="boton-paint"
+        id="boton-dibujar"
+        value="boton-dibujar"
+        checked
+      />
+      <label for="boton-dibujar">Dibujar</label>
+      <input
+        type="radio"
+        name="boton-paint"
+        id="boton-borrar"
+        value="boton-borrar"
+      />
+      <label for="boton-borrar">Borrar</label>
+    </div>
+    <div class="slidecontainer">
+      <input
+        type="range"
+        min="8"
+        max="25"
+        value="12"
+        class="slider"
+        id="grosor"
+      />
+    </div>
+    <div>
+      <input type="color" name="input-color" id="input-color" />
+    </div>
+    <div>
+      <input
+        type="radio"
+        name="boton-forma"
+        id="boton-rectangulo"
+        value="boton-rectangulo"
+        checked
+      />
+      <label for="boton-rectangulo">Rectangulo</label>
+      <input
+        type="radio"
+        name="boton-forma"
+        id="boton-circulo"
+        value="boton-circulo"
+      />
+      <label for="boton-circulo">Circulo</label>
+    </div>
+    <script src="script/figura.js"></script>
+    <script src="script/circulo.js"></script>
+    <script src="script/rectangulo.js"></script>
+    <script src="script/script.js"></script>
+  </body>
+</html>
