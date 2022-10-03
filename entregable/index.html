@@ -13,6 +13,7 @@
       width="350"
       style="border: 1px solid blue"
     ></canvas>
+
     <div>
       <input
         type="radio"
@@ -43,26 +44,29 @@
     <div>
       <input type="color" name="input-color" id="input-color" />
     </div>
+
+    <div>
+      <button id="filtro-sepia">Filtro Sepia</button>
+      <button id="negativo">Filtro Negativo</button>
+      <button id="brillo">Filtro de Brillo</button>
+      <button id="borrarFiltro">Quitar filtros</button>
+    </div>
+    <br />
     <div>
       <input
-        type="radio"
-        name="boton-forma"
-        id="boton-rectangulo"
-        value="boton-rectangulo"
-        checked
+        type="file"
+        name="input-imagen"
+        id="input-imagen"
+        accept="image/*"
       />
-      <label for="boton-rectangulo">Rectangulo</label>
-      <input
-        type="radio"
-        name="boton-forma"
-        id="boton-circulo"
-        value="boton-circulo"
-      />
-      <label for="boton-circulo">Circulo</label>
     </div>
-    <script src="script/figura.js"></script>
-    <script src="script/circulo.js"></script>
-    <script src="script/rectangulo.js"></script>
+
+    <div>
+      <button id="limpiar-canvas" onclick="limpiarCanvas()">
+        Limpiar Canvas
+      </button>
+    </div>
+
     <script src="script/script.js"></script>
   </body>
 </html>
