@@ -10,25 +10,28 @@ let imagenOriginal;
 const elemLeft = canvas.offsetLeft + canvas.clientLeft;
 const elemTop = canvas.offsetTop + canvas.clientTop;
 
-//VALORES DEL CANVAS POR DEFECTO
+//VALORES DEL CANVAS POR DEFECTO, UTILIZADOS AL REINICIAR EL CANVAS
 const defaultHeight = canvas.height;
 const defaultWidth = canvas.width;
 
 let dibujando = false;
 
+//COORDENADAS PARA EL MANEJO DEL LAPIZ
 let coord1;
 let coord2;
 
+//TRIGGER AL CLICKEAR EL MOUSE
 canvas.addEventListener("mousedown", function (event) {
   dibujando = true;
   coord1 = { x: event.pageX - elemLeft, y: event.pageY - elemTop };
   const tool = obtenerHerramienta();
   const grosor = obtenerGrosor();
   const color = obtenerColor();
-  coord2 = { x: event.pageX - elemLeft, y: event.pageY - elemTop};
+  coord2 = { x: event.pageX - elemLeft, y: event.pageY - elemTop };
   dibujar(tool, grosor, color, coord1, coord2);
 });
 
+//TRIGGER AL MOVER EL MOUSE
 canvas.addEventListener("mousemove", function (event) {
   if (dibujando) {
     const tool = obtenerHerramienta();
@@ -44,6 +47,10 @@ canvas.addEventListener("mouseup", function (event) {
   dibujando = false;
 });
 
+/*
+FUNCION PARA SABER LA HERRAMIENTA EN USO
+SOLO LAPIZ Y BORRADOR POR AHORA
+*/
 function obtenerHerramienta() {
   let herramientas = document.getElementsByName("boton-paint");
   let herramienta;
@@ -61,6 +68,7 @@ function obtenerColor() {
   return (color = document.getElementById("input-color").value);
 }
 
+// FUNCION CORRESPONDIENTE AL CLICKEAR Y MOVER EL MOUSE
 function dibujar(tool, grosor, color, coord1, coord2) {
   if (tool == "boton-borrar") {
     color = "rgba(255, 255, 255, 1)";
@@ -74,9 +82,10 @@ function dibujar(tool, grosor, color, coord1, coord2) {
   ctx.stroke();
 }
 
+//LIMPIAR EL CANVAS Y DEVOLVER SUS VALORES POR DEFECTO
 function limpiarCanvas() {
-  document.getElementById("input-imagen").value ='';
-  canvas.style.filter='';
+  document.getElementById("input-imagen").value = "";
+  canvas.style.filter = "";
   canvas.width = defaultWidth;
   canvas.height = defaultHeight;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -105,11 +114,16 @@ inputFile.onchange = function (event) {
   };
 };
 
+//REINICIAR LA IMAGEN A SU FORMA ORIGINAL
 function reiniciarImagen() {
-  canvas.style.filter='';
+  canvas.style.filter = "";
   ctx.putImageData(imagenOriginal, 0, 0);
 }
 
+//FUNCION PARA DESCARGAR LA IMAGEN EN FORMATO PNG
+document
+  .getElementById("boton-descarga")
+  .addEventListener("click", descargarImagen, false);
 function descargarImagen() {
   let descarga = canvas.toDataURL("image/png");
   /* PARA ASEGURARNOS DE QUE LA IMAGEN SE DESCARGA Y NO SE ABRE EN OTRA PESTAÑA */
@@ -120,26 +134,10 @@ function descargarImagen() {
   this.href = descarga;
 }
 
-document
-  .getElementById("boton-descarga")
-  .addEventListener("click", descargarImagen, false);
-
-//FILTROS COLORES
-
-//OBTENER EL VALOR DE CADA PIXEL
-function getRed(imageData, x, y) {
+//OBTENER EL VALOR DE UN PIXEL SEGÚN SU POSICIÓN
+function obtenerColorPixel(imageData, x, y, posicion) {
   let index = (x + y * imageData.width) * 4;
-  return imageData.data[index + 0];
-}
-
-function getGreen(imageData, x, y) {
-  let index = (x + y * imageData.width) * 4;
-  return imageData.data[index + 1];
-}
-
-function getBlue(imageData, x, y) {
-  let index = (x + y * imageData.width) * 4;
-  return imageData.data[index + 2];
+  return imageData.data[index + posicion];
 }
 
 function filtroSepia() {
@@ -149,9 +147,12 @@ function filtroSepia() {
   for (let x = 0; x < imageData.width; x++) {
     for (let y = 0; y < imageData.height; y++) {
       index = (x + y * imageData.width) * 4;
-      pixel = 0.3 * getRed(imageData, x, y) + 0.6 * getGreen(imageData, x, y) + 0.1 * getBlue(imageData, x, y);
-      let r = pixel + 35;
-      let g = pixel + 20;
+      pixel =
+        0.3 * obtenerColorPixel(imageData, x, y, 0) +
+        0.6 * obtenerColorPixel(imageData, x, y, 1) +
+        0.1 * obtenerColorPixel(imageData, x, y, 2);
+      let r = pixel + 20;
+      let g = pixel + 10;
       let b = pixel;
       imageData.data[index + 0] = r;
       imageData.data[index + 1] = g;
@@ -165,42 +166,42 @@ function filtroBrillo() {
   let index;
   let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   for (let x = 0; x < imageData.width; x++) {
-          for (let y = 0; y < imageData.height; y++) {
-                  index = (x + y * imageData.width) * 4;
-                  let r = imageData.data[index + 0] + 77;
-                  let g = imageData.data[index + 1] + 77;
-                  let b = imageData.data[index + 2] + 77;
-                  imageData.data[index + 0] = r;
-                  imageData.data[index + 1] = g;
-                  imageData.data[index + 2] = b;
-          }
+    for (let y = 0; y < imageData.height; y++) {
+      index = (x + y * imageData.width) * 4;
+      let r = obtenerColorPixel(imageData, x, y, 0) + 66;
+      let g = obtenerColorPixel(imageData, x, y, 1) + 66;
+      let b = obtenerColorPixel(imageData, x, y, 2) + 66;
+      imageData.data[index + 0] = r;
+      imageData.data[index + 1] = g;
+      imageData.data[index + 2] = b;
+    }
   }
   ctx.putImageData(imageData, 0, 0);
 }
 
 function filtroNegativo() {
   let index;
-  let imageData = ctx.getImageData(0, 0, canvas.width,canvas.height);
+  let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   for (let x = 0; x < imageData.width; x++) {
-          for (let y = 0; y < imageData.height; y++) {
-                  index = (x + y * imageData.width) * 4;
-                  let r = 255 - getRed(imageData, x, y);
-                  let g = 255 - getGreen(imageData, x, y);
-                  let b = 255 - getBlue(imageData, x, y);
-                  imageData.data[index + 0] = r;
-                  imageData.data[index + 1] = g;
-                  imageData.data[index + 2] = b;
-          }
+    for (let y = 0; y < imageData.height; y++) {
+      index = (x + y * imageData.width) * 4;
+      let r = 255 - obtenerColorPixel(imageData, x, y, 0);
+      let g = 255 - obtenerColorPixel(imageData, x, y, 1);
+      let b = 255 - obtenerColorPixel(imageData, x, y, 2);
+      imageData.data[index + 0] = r;
+      imageData.data[index + 1] = g;
+      imageData.data[index + 2] = b;
+    }
   }
   ctx.putImageData(imageData, 0, 0);
 }
 
-function filtroGris(){
+function filtroGris() {
   let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   let data = imageData.data;
 
   for (let i = 0; i < data.length; i += 4) {
-    let grey = (0.2126 * data[i]) + (0.7152 * data[i + 1]) + (0.0722 * data[i + 2]);
+    let grey = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
     data[i] = grey;
     data[i + 1] = grey;
     data[i + 2] = grey;
@@ -208,11 +209,31 @@ function filtroGris(){
   ctx.putImageData(imageData, 0, 0);
 }
 
-//BASICO
-function filtroBlur(){
+function filtroBinario() {
+  let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  for (let x = 0; x < imageData.width; x++) {
+    for (let y = 0; y < imageData.height; y++) {
+      let index = (x + y * imageData.width) * 4;
+      let r = obtenerColorPixel(imageData, x, y, 0);
+      let g = obtenerColorPixel(imageData, x, y, 1);
+      let b = obtenerColorPixel(imageData, x, y, 2);
+      let promedio = (r + g + b) / 3;
+      let color;
+      if (promedio > 255 / 2) color = 255;
+      else color = 0;
+      imageData.data[index + 0] = color;
+      imageData.data[index + 1] = color;
+      imageData.data[index + 2] = color;
+    }
+  }
+  ctx.putImageData(imageData, 0, 0);
+}
+
+//FILTROS "AVANZADOS"
+function filtroBlur() {
   canvas.style.filter = "blur(2px)";
 }
 
-function filtroSaturar(){
+function filtroSaturar() {
   canvas.style.filter = "saturate(200%)";
 }
