@@ -39,17 +39,39 @@
         value="12"
         class="slider"
         id="grosor"
+        name="grosor"
       />
+      <label for="grosor">Grosor del lapiz</label>
     </div>
     <div>
       <input type="color" name="input-color" id="input-color" />
-    </div>
+      <label for="input-color">Seleccionar color para dibujar</label>
 
+    </div>
+    <br />
     <div>
-      <button id="filtro-sepia">Filtro Sepia</button>
-      <button id="negativo">Filtro Negativo</button>
-      <button id="brillo">Filtro de Brillo</button>
-      <button id="borrarFiltro">Quitar filtros</button>
+      <button id="filtro-sepia" onclick="filtroSepia()">Filtro Sepia</button>
+      <button id="filtro-negativo" onclick="filtroNegativo()">
+        Filtro Negativo
+      </button>
+      <button id="filtro-brillo" onclick="filtroBrillo()">
+        Filtro de Brillo
+      </button>
+      <br />
+      <br />
+      <button id="filtro-binario" onclick="filtroGris()">Filtro Grises</button>
+      <button id="filtro-saturar" onclick="filtroSaturar()">
+        Filtro Saturar
+      </button>
+      <button id="filtro-blur" onclick="filtroBlur()">Filtro Blur</button>
+      <br />
+      <br />
+      <button id="boton-reset" onclick="reiniciarImagen()">
+        Reiniciar imagen
+      </button>
+      <button id="limpiar-canvas" onclick="limpiarCanvas()">
+        Limpiar Canvas
+      </button>
     </div>
     <br />
     <div>
@@ -60,11 +82,9 @@
         accept="image/*"
       />
     </div>
-
+    <br />
     <div>
-      <button id="limpiar-canvas" onclick="limpiarCanvas()">
-        Limpiar Canvas
-      </button>
+      <a id="boton-descarga" download="canvas.png" href="#">Descargar Canvas</a>
     </div>
 
     <script src="script/script.js"></script>
